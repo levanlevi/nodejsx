@@ -38,14 +38,12 @@ var routes = function (Book) {
             res.send(req.book);
         })
         .put(function (req, res) {
-            Book.findById(req.params.bookId, function (err, book) {
-                req.book.title = req.body.title;
-                req.book.author = req.body.author;
-                req.book.read = req.body.read;
-                req.book.genre = req.body.genre;
-                req.book.save();
-                res.json(req.book);
-            });
+            req.book.title = req.body.title;
+            req.book.author = req.body.author;
+            req.book.read = req.body.read;
+            req.book.genre = req.body.genre;
+            req.book.save();
+            res.json(req.book);
         })
         .patch(function (req, res) {
             if (req.body._id)
@@ -61,6 +59,14 @@ var routes = function (Book) {
                 else
                     res.json(req.book);
             })
+        })
+        .delete(function (req, res) {
+            req.book.remove(function (err) {
+                if (err)
+                    res.status(500).send();
+                else
+                    res.status(204).send('Removed');
+            });
         });
 
 
